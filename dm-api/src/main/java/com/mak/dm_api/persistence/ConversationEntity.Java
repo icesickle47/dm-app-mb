@@ -7,8 +7,10 @@ import java.util.UUID;
 @Entity
 @Table(
         name = "conversations",
-        // Enforce one DM per pair (stored in canonical order: user1 < user2)
-        uniqueConstraints = @UniqueConstraint(name = "uk_conversation_user_pair", columnNames = {"user1_id", "user2_id"})
+        uniqueConstraints = @UniqueConstraint(
+                name = "uk_conversation_user_pair",
+                columnNames = {"user1_id", "user2_id"}
+        )
 )
 public class ConversationEntity {
 
@@ -25,7 +27,7 @@ public class ConversationEntity {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
-    protected ConversationEntity() { }
+    protected ConversationEntity() {}
 
     public ConversationEntity(UUID id, String user1Id, String user2Id, Instant createdAt) {
         this.id = id;

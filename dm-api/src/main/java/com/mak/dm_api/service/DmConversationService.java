@@ -9,11 +9,11 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Service
-public class DMConversationService {
+public class DmConversationService {
 
     private final ConversationRepository conversationRepository;
 
-    public DMConversationService(ConversationRepository conversationRepository) {
+    public DmConversationService(ConversationRepository conversationRepository) {
         this.conversationRepository = conversationRepository;
     }
 

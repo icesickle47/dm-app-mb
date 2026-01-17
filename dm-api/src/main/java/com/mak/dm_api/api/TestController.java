@@ -23,7 +23,9 @@ public class TestController {
                           @RequestParam String text) {
 
         var event = new MessageCreatedEvent(
-                UUID.randomUUID().toString(),
+                "1",                          // schemaVersion
+                UUID.randomUUID().toString(),  // messageId
+                UUID.randomUUID().toString(),  // clientMessageId (fake for test)
                 conversationId,
                 senderId,
                 recipientId,
