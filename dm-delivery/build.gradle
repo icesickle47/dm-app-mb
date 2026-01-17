@@ -1,12 +1,11 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.4.1'  // instead of 4.0.1
-	id 'io.spring.dependency-management' version '1.1.7'
+	id 'org.springframework.boot' version '3.3.7'
+	id 'io.spring.dependency-management' version '1.1.6'
 }
 
 group = 'com.mak'
 version = '0.0.1-SNAPSHOT'
-description = 'Delivery module for the DM app'
 
 java {
 	toolchain {
@@ -20,10 +19,15 @@ repositories {
 
 dependencies {
 	implementation project(':dm-contracts')
+
+	implementation 'org.springframework.kafka:spring-kafka'
+
+	// Optional now, useful soon
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	runtimeOnly 'org.postgresql:postgresql'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation 'org.springframework.kafka:spring-kafka-test'
 }
 
 tasks.named('test') {

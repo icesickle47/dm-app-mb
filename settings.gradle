@@ -1,2 +1,4 @@
 rootProject.name = 'dm-app'
-include 'dm-api', 'dm-delivery', 'dm-contracts'
+include 'dm-api'
+include 'dm-delivery'
+include 'dm-contracts'
