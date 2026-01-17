@@ -1,2 +1,13 @@
-package com.mak.dm_api.web;public class HealthController {
+package com.mak.dm_api.web;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HealthController {
+
+    @GetMapping("/health")
+    public String health() {
+        return "ok";
+    }
 }
