@@ -10,6 +10,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate.jdbc.time_zone: Asia/Kolkata
 
   kafka:
     bootstrap-servers: localhost:9092
