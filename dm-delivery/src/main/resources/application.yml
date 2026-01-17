@@ -2,15 +2,6 @@ server:
   port: 8081
 
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/dmdb
-    username: dm
-    password: dm
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
