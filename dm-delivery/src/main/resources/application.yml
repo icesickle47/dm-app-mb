@@ -12,6 +12,10 @@ spring:
       properties:
         spring.json.trusted.packages: "*"
 
+dm:
+  api:
+    base-url: http://localhost:8080
+
 app:
   kafka:
     topics:
