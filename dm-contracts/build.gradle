@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+    id 'java-library'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+group = 'com.mak'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
