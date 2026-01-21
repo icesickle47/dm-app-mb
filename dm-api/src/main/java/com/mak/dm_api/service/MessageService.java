@@ -1,7 +1,6 @@
 package com.mak.dm_api.service;
 
 import com.mak.dm_api.api.SendMessageRequest;
-import com.mak.dm_api.api.dto.CreateMessageRequest;
 import com.mak.dm_api.persistence.MessageEntity;
 import com.mak.dm_api.persistence.MessageRepository;
 import org.springframework.stereotype.Service;
@@ -40,9 +39,5 @@ public class MessageService {
                     );
                     return messageRepository.save(entity);
                 });
-    }
-
-    public MessageEntity createMessage(Long conversationId, CreateMessageRequest request) {
-
     }
 }
