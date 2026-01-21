@@ -1,5 +1,7 @@
 package com.mak.dm_api.api.controller;
 
+import com.mak.dm_api.api.SendMessageRequest;
+import com.mak.dm_api.api.SendMessageResponse;
 import com.mak.dm_api.api.dto.CreateMessageRequest;
 import com.mak.dm_api.api.dto.MessageResponse;
 import com.mak.dm_api.persistence.MessageEntity;
@@ -20,23 +22,17 @@ public class MessageController {
     }
 
     @PostMapping("/{conversationId}/messages")
-    public ResponseEntity<MessageResponse> createMessage(
-            @PathVariable Long conversationId,
-            @RequestBody CreateMessageRequest request
-    ) {
-        MessageEntity saved = messageService.createMessage(conversationId, request);
+    public ResponseEntity<SendMessageResponse> send(@RequestBody SendMessageRequest request) {
+        MessageEntity saved = messageService.send(request);
 
-        // Adjust getters based on your entity
-        MessageResponse response = new MessageResponse(
+        return ResponseEntity.ok(new SendMessageResponse(
                 saved.getId(),
-                conversationId,
-                request.getSenderUserId(),
-                request.getContent(),
-                null // replace with saved.getCreatedAt() if you have it
-        );
-
-        return ResponseEntity
-                .created(URI.create("/conversations/" + conversationId + "/messages/" + saved.getId()))
-                .body(response);
+                saved.getConversationId(),
+                saved.getSenderId(),
+                saved.getRecipientId(),
+                saved.getClientMessageId(),
+                saved.getText(),
+                saved.getCreatedAt()
+        ));
     }
 }
