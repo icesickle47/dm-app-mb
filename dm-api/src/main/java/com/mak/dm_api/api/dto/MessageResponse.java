@@ -4,7 +4,7 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 public class MessageResponse {
-    private Long id;
+    private UUID id;
     private Long conversationId;
     private Long senderUserId;
     private String content;
@@ -18,7 +18,7 @@ public class MessageResponse {
         this.createdAt = createdAt;
     }
 
-    public Long getId() { return id; }
+    public UUID getId() { return id; }
     public Long getConversationId() { return conversationId; }
     public Long getSenderUserId() { return senderUserId; }
     public String getContent() { return content; }
