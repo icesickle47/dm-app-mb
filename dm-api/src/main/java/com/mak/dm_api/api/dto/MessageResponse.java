@@ -1,6 +1,7 @@
 package com.mak.dm_api.api.dto;
 
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 public class MessageResponse {
     private Long id;
@@ -9,7 +10,7 @@ public class MessageResponse {
     private String content;
     private OffsetDateTime createdAt;
 
-    public MessageResponse(Long id, Long conversationId, Long senderUserId, String content, OffsetDateTime createdAt) {
+    public MessageResponse(UUID id, Long conversationId, Long senderUserId, String content, OffsetDateTime createdAt) {
         this.id = id;
         this.conversationId = conversationId;
         this.senderUserId = senderUserId;

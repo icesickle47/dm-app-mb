@@ -1,60 +1,48 @@
 package com.mak.dm_api.service;
 
+import com.mak.dm_api.api.SendMessageRequest;
 import com.mak.dm_api.api.dto.CreateMessageRequest;
-import com.mak.dm_api.events.MessageCreatedEvent;
-import com.mak.dm_api.events.publisher.MessageEventPublisher;
-import com.mak.dm_api.persistence.ConversationEntity;
 import com.mak.dm_api.persistence.MessageEntity;
-import com.mak.dm_api.persistence.repository.ConversationRepository;
-import com.mak.dm_api.persistence.repository.MessageRepository;
+import com.mak.dm_api.persistence.MessageRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
+import java.util.UUID;
 
 @Service
 public class MessageService {
 
-    private final ConversationRepository conversationRepository;
     private final MessageRepository messageRepository;
-    private final MessageEventPublisher publisher;
 
-    public MessageService(ConversationRepository conversationRepository,
-                          MessageRepository messageRepository,
-                          MessageEventPublisher publisher) {
-        this.conversationRepository = conversationRepository;
+    public MessageService(MessageRepository messageRepository) {
         this.messageRepository = messageRepository;
-        this.publisher = publisher;
     }
 
     @Transactional
-    public MessageEntity createMessage(Long conversationId, CreateMessageRequest req) {
-        ConversationEntity conversation = conversationRepository.findById(conversationId)
-                .orElseThrow(() -> new IllegalArgumentException("Conversation not found: " + conversationId));
+    public MessageEntity send(SendMessageRequest req) {
+        // Idempotency: if client retries same message, return the original row
+        return messageRepository
+                .findByConversationIdAndSenderIdAndClientMessageId(
+                        req.conversationId(),
+                        req.senderId(),
+                        req.clientMessageId()
+                )
+                .orElseGet(() -> {
+                    MessageEntity entity = new MessageEntity(
+                            UUID.randomUUID(),
+                            req.conversationId(),
+                            req.senderId(),
+                            req.recipientId(),
+                            req.clientMessageId(),
+                            req.text(),
+                            Instant.now()
+                    );
+                    return messageRepository.save(entity);
+                });
+    }
 
-        // Build MessageEntity based on your actual fields
-        MessageEntity message = new MessageEntity();
-        // message.setConversation(conversation) OR message.setConversationId(conversationId) depending on your entity
-        // message.setSenderUserId(req.getSenderUserId())
-        // message.setContent(req.getContent())
-        // message.setClientMessageId(req.getClientMessageId())
-        // message.setCreatedAt(OffsetDateTime.now())
+    public MessageEntity createMessage(Long conversationId, CreateMessageRequest request) {
 
-        // IMPORTANT: you must map fields to match your MessageEntity.java
-        // We'll adjust this once you confirm the entity fields.
-
-        MessageEntity saved = messageRepository.save(message);
-
-        MessageCreatedEvent event = new MessageCreatedEvent(
-                saved.getId(),
-                conversationId,
-                req.getSenderUserId(),
-                req.getContent(),
-                OffsetDateTime.now()
-        );
-
-        publisher.publishMessageCreated(event);
-
-        return saved;
     }
 }
