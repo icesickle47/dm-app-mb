@@ -18,7 +18,6 @@ import java.util.UUID;
                 )
         }
 )
-
 public class MessageEntity {
 
     @Id
@@ -43,7 +42,7 @@ public class MessageEntity {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
-    public MessageEntity() { }
+    protected MessageEntity() { }
 
     public MessageEntity(UUID id,
                          UUID conversationId,
